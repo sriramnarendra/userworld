@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\api",
+    "\\api\\controller",
+    "\\api\\swagger",
+    "\\src",
+    "\\src\\db",
+    "\\src\\db\\models"
+  ],
+  "SelectedNode": "\\api\\swagger\\swagger.yaml",
+  "PreviewInSolutionExplorer": false
+}

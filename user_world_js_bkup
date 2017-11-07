@@ -1,0 +1,55 @@
+'use strict';
+
+require('dotenv').config();
+const express = require('express');
+const SwaggerExpress = require('swagger-express-mw');
+const core = require('./src/core');
+//const filterBasePath = require('swagger-filter-basepath');
+
+const app = express();
+const logger = core.logger;
+const requestHeaders = {};
+const port = process.env.PORT || 10010;
+
+app.use((req, res, next) => {
+    requestHeaders.userId = req.get('UW_UserId');
+    requestHeaders.correlationId = req.get('UW_CorrelationId');
+    logger.rewrite.push((level, msg, meta) => {
+        meta.transaction = requestHeaders;
+        return meta;
+        });
+    next();
+});
+
+const basePath = `${process.env.BASE_URL}`;
+  
+var swaggerConfig = {
+    appRoot: __dirname // required config
+};
+
+SwaggerExpress.create(swaggerConfig, function(err, swaggerExpress) {
+  if (err) { throw err; }
+
+  swaggerExpress.runner.swagger.basePath = `${process.env.BASE_URL}`;
+  // install middleware
+  swaggerExpress.register(app);
+
+    /*
+  if (swaggerExpress.runner.swagger.paths['/hello']) {
+    console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
+  }
+    */
+});
+
+
+
+const handler = app.listen(port, () => {
+    logger.info(`Server is running on the port: ${port}`);
+});
+
+module.exports = {
+    start: () => app,
+    stop: () => {
+        handler.close();
+    }
+}; 
