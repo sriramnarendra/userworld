@@ -62,6 +62,57 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /user/{id}/info:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    get:
+      description: Returns Users details
+      # used as the method name of the controller
+      operationId: getInfo
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/UserInfoResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /user/signup:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    post:
+      description: Returns Users details
+      # used as the method name of the controller
+      operationId: signUp 
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Service for user to Signup 
+          required: true 
+          schema:
+            $ref: "#/definitions/UserSignupRequest"
+      responses:
+        "201":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/UserSignupResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -84,3 +135,50 @@ definitions:
     properties:
       message:
         type: string
+  UserDetails:
+    required:
+      - id
+      - firstName
+      - lastName
+    properties:
+      id:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+  UserInfoResponse:
+    required:
+      - userInfo
+    properties:
+      userInfo:
+        $ref: "#/definitions/UserDetails"
+  UserSignupResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  UserSignupRequest:
+    properties:
+      id:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      birthday:
+        type: string
+      gender:
+        type: string
+      creditcard:
+        type: string
+      email:
+        type: string
+parameters:
+  id:
+    name: id
+    in: path
+    description: The id of the user whom details need to be fetched
+    required: true
+    type: string

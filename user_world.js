@@ -9,6 +9,17 @@ const logger  = core.logger;
 
 require('dotenv').config();
 
+const requestHeaders = {};
+
+app.use((req, res, next) => {
+    requestHeaders.userId = req.get('UW-UserId');
+    requestHeaders.correlationId = req.get('UW-CorrelationId');
+    logger.rewriters.push((level, msg, meta) => {
+        meta.transaction = requestHeaders;
+        return meta;
+    });
+    next();
+});
 var config = {
   appRoot: __dirname // required config
 };
