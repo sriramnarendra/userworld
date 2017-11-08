@@ -8,10 +8,13 @@
   "license": "",
   "main": "app.js",
   "dependencies": {
+    "co": "^4.6.0",
     "date-format": "^1.1.0",
     "dotenv": "^4.0.0",
     "express": "^4.12.3",
     "forever": "^0.15.3",
+    "mongoose": "^4.13.0",
+    "q": "^1.5.1",
     "swagger-express-mw": "^0.1.0",
     "winston": "^2.3.0"
   },

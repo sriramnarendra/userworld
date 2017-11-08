@@ -161,7 +161,7 @@ definitions:
         type: string
   UserSignupRequest:
     properties:
-      id:
+      userId:
         type: string
       firstName:
         type: string
